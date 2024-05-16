@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="stylesheet.css">
+<title>Image Upload with Preview</title>
+<style>
+    .preview-image {
+        display: block;
+        margin: auto;
+        max-width: 300px;
+        max-height: 300px;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Prediksi Rambu Lalu Lintas</h1>
+    <form id="apiForm">
+        <input type="file" name="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
+            <br>
+                <img id="preview" class="preview-image">
+            <br>
+        <button type="button" onclick="submitForm()">Deteksi</button>
+    </form>    
+</div>
+<div class="container">
+    <h2 id="hasil">???</h2>
+</div>
+<script>
+
+    function previewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('preview');
+        preview.style.display = 'block';
+        var reader = new FileReader();
+        reader.onload = function(){
+            preview.src = reader.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    function submitForm(){
+        var form = document.getElementById("apiForm")
+        var formData = new FormData(form)
+
+        fetch('http://127.0.0.1:8000/predict/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("hasil").innerText = 'Prediksi: ' + data.class;
+        })
+        .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("hasil").innerText = 'Upload Gambar untuk di Prediksi';
+        });
+    }
+</script>
+
+</body>
+</html>
