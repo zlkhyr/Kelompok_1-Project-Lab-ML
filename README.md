@@ -91,3 +91,10 @@ Jalankan Jupyter Notebook:
 jupyter notebook
 ```
 Buka file proyek_machine_learning.ipynb di antarmuka Jupyter Notebook, Jalankan sel-sel di notebook untuk menjalankan proyek machine learning.
+
+## Deployment
+Jalankan `FastAPI` dengan perintah berikut:
+```bash
+uvicorn main2:app --reload
+```
+Buka halaman html dan upload gambar untuk di prediksi
